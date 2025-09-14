@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Loja de Sofás</title>
   <style>
     body {
@@ -18,12 +18,14 @@
       max-width: 1000px;
       margin: auto;
       padding: 20px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+      margin-top: 20px;
     }
 
     h1 {
       text-align: center;
-      color: #fff;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+      color: #222;
     }
 
     .catalogo {
@@ -38,8 +40,8 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       width: 280px;
-      background-color: #ffffffee;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       overflow: hidden;
       text-align: center;
       display: flex;
@@ -64,6 +66,7 @@
     .sofa-info p {
       margin: 5px 0;
       font-size: 0.95em;
+      color: #555;
     }
 
     .sofa-info button {
@@ -92,14 +95,13 @@
 </div>
 
 <script>
-  // Lista de sofás – agora com a opção "Escolha outra cor"
   const sofas = [
     { nome: "Sofá Modelo 1", imagem: "sofa1.jpeg" },
     { nome: "Sofá Modelo 2", imagem: "sofa2.jpeg" },
     { nome: "Sofá Modelo 3", imagem: "sofa3.jpeg" },
     { nome: "Sofá Modelo 4", imagem: "sofa4.jpeg" },
     { nome: "Sofá Modelo 5", imagem: "sofa5.jpeg" },
-    { nome: "Escolha outra cor", imagem: "sofa6.jpeg" } // sem "Modelo 6"
+    { nome: "Escolha outra cor", imagem: "sofa6.jpeg" }
   ];
 
   const preco = 550.00;
@@ -132,7 +134,7 @@
       btn.textContent = "Quero este sofá";
       btn.onclick = () => {
         const mensagem = encodeURIComponent(
-          `Olá! Tenho interesse no sofá:\n\nModelo: ${sofa.nome}\nPreço: R$ ${preco.toFixed(2)}\n${descricao}\n\nGostaria de saber sobre outras cores disponíveis.`
+          `Olá, vou querer o sofá:\nModelo: ${sofa.nome}\nPreço: R$ ${preco.toFixed(2)}\n${descricao}`
         );
         const link = `${whatsappLinkBase}?text=${mensagem}`;
         window.open(link, '_blank');
@@ -154,3 +156,4 @@
 
 </body>
 </html>
+
