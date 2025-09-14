@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loja de Sofás</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('fundo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+
+    .catalogo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .sofa-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 280px;
+      background-color: #ffffffee;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      overflow: hidden;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sofa-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .sofa-info {
+      padding: 15px;
+    }
+
+    .sofa-info h2 {
+      font-size: 1.2em;
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    .sofa-info p {
+      margin: 5px 0;
+      font-size: 0.95em;
+    }
+
+    .sofa-info button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .sofa-info button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Escolha Seu Sofá</h1>
+  <div class="catalogo" id="catalogo">
+    <!-- Sofás serão inseridos aqui via JavaScript -->
+  </div>
+</div>
+
+<script>
+  // Lista de sofás – agora com a opção "Escolha outra cor"
+  const sofas = [
+    { nome: "Sofá Modelo 1", imagem: "sofa1.jpeg" },
+    { nome: "Sofá Modelo 2", imagem: "sofa2.jpeg" },
+    { nome: "Sofá Modelo 3", imagem: "sofa3.jpeg" },
+    { nome: "Sofá Modelo 4", imagem: "sofa4.jpeg" },
+    { nome: "Sofá Modelo 5", imagem: "sofa5.jpeg" },
+    { nome: "Escolha outra cor", imagem: "sofa6.jpeg" } // sem "Modelo 6"
+  ];
+
+  const preco = 550.00;
+  const descricao = "Acompanha 3 almofadas";
+  const whatsappLinkBase = "https://wa.me/qr/IB2M36JKKQQTN1";
+
+  function montarCatalogo() {
+    const catalogoEl = document.getElementById('catalogo');
+    sofas.forEach(sofa => {
+      const card = document.createElement('div');
+      card.classList.add('sofa-card');
+
+      const img = document.createElement('img');
+      img.src = sofa.imagem;
+      img.alt = sofa.nome;
+
+      const info = document.createElement('div');
+      info.classList.add('sofa-info');
+
+      const h2 = document.createElement('h2');
+      h2.textContent = sofa.nome;
+
+      const precoP = document.createElement('p');
+      precoP.textContent = `Preço à vista: R$ ${preco.toFixed(2)}`;
+
+      const descP = document.createElement('p');
+      descP.textContent = descricao;
+
+      const btn = document.createElement('button');
+      btn.textContent = "Quero este sofá";
+      btn.onclick = () => {
+        const mensagem = encodeURIComponent(
+          `Olá! Tenho interesse no sofá:\n\nModelo: ${sofa.nome}\nPreço: R$ ${preco.toFixed(2)}\n${descricao}\n\nGostaria de saber sobre outras cores disponíveis.`
+        );
+        const link = `${whatsappLinkBase}?text=${mensagem}`;
+        window.open(link, '_blank');
+      };
+
+      info.appendChild(h2);
+      info.appendChild(precoP);
+      info.appendChild(descP);
+      info.appendChild(btn);
+
+      card.appendChild(img);
+      card.appendChild(info);
+      catalogoEl.appendChild(card);
+    });
+  }
+
+  window.onload = montarCatalogo;
+</script>
+
+</body>
+</html>
