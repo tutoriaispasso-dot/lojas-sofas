@@ -83,6 +83,69 @@
     .sofa-info button:hover {
       background-color: #218838;
     }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+    }
+
+    .modal-content label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .modal-content button {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-content button:hover {
+      background-color: #218838;
+    }
+
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -91,6 +154,37 @@
   <h1>Escolha Seu Sofá</h1>
   <div class="catalogo" id="catalogo">
     <!-- Sofás serão inseridos aqui via JavaScript -->
+  </div>
+</div>
+
+<!-- Modal de Formulário -->
+<div class="modal" id="formModal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <h3>Preencha seus dados para finalizar o pedido</h3>
+    <form id="pedidoForm">
+      <input type="hidden" id="sofaSelecionado" name="sofaSelecionado">
+
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" required>
+
+      <label for="rua">Rua:</label>
+      <input type="text" id="rua" required>
+
+      <label for="numero">Número da casa:</label>
+      <input type="text" id="numero" required>
+
+      <label for="referencia">Ponto de referência:</label>
+      <input type="text" id="referencia">
+
+      <label for="telefone">Telefone:</label>
+      <input type="tel" id="telefone" required>
+
+      <label for="observacao">Observação:</label>
+      <textarea id="observacao" rows="3"></textarea>
+
+      <button type="submit">Enviar pedido</button>
+    </form>
   </div>
 </div>
 
@@ -106,7 +200,6 @@
 
   const preco = 550.00;
   const descricao = "Acompanha 3 almofadas";
-  const whatsappLinkBase = "https://wa.me/5599992176016"; // seu número com DDI e DDD
 
   function montarCatalogo() {
     const catalogoEl = document.getElementById('catalogo');
@@ -133,11 +226,8 @@
       const btn = document.createElement('button');
       btn.textContent = "Quero este sofá";
       btn.onclick = () => {
-        const mensagem = encodeURIComponent(
-          `Olá, vou querer o sofá:\nModelo: ${sofa.nome}\nPreço: R$ ${preco.toFixed(2)}\n${descricao}`
-        );
-        const link = `${whatsappLinkBase}?text=${mensagem}`;
-        window.open(link, '_blank');
+        document.getElementById('sofaSelecionado').value = sofa.nome;
+        abrirModal();
       };
 
       info.appendChild(h2);
@@ -151,9 +241,40 @@
     });
   }
 
+  function abrirModal() {
+    document.getElementById('formModal').style.display = 'block';
+  }
+
+  function fecharModal() {
+    document.getElementById('formModal').style.display = 'none';
+    document.getElementById('pedidoForm').reset();
+  }
+
+  // Aqui você pode configurar o que fazer com os dados enviados
+  document.getElementById('pedidoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const sofa = document.getElementById('sofaSelecionado').value;
+    const nome = document.getElementById('nome').value;
+    const rua = document.getElementById('rua').value;
+    const numero = document.getElementById('numero').value;
+    const referencia = document.getElementById('referencia').value;
+    const telefone = document.getElementById('telefone').value;
+    const observacao = document.getElementById('observacao').value;
+
+    const mensagem = `Olá, gostaria de pedir o sofá:\nModelo: ${sofa}\nPreço: R$ ${preco.toFixed(2)}\n${descricao}\n\nDados para entrega:\nNome: ${nome}\nRua: ${rua}, Nº ${numero}\nPonto de referência: ${referencia}\nTelefone: ${telefone}\nObservação: ${observacao}`;
+
+    const whatsappLink = `https://wa.me/5599992176016?text=${encodeURIComponent(mensagem)}`;
+    window.open(whatsappLink, '_blank');
+
+    fecharModal();
+  });
+
   window.onload = montarCatalogo;
 </script>
 
 </body>
 </html>
+
+
 
